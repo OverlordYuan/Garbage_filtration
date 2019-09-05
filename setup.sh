@@ -1,3 +1,4 @@
 #!/bin/sh
-mkdir venv
+virtualenv venv
+source  venv/bin/activate
 pip install -r requirement.txt
