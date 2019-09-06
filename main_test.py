@@ -2,10 +2,10 @@
 """
  Created by Overlord Yuan at 2019/8/28
 """
-from Garbage_fliter import Garbage
+from Spam_Text_Recognition_local import Spam
 
 if __name__ =='__main__':
-    a = Garbage('华为')
+    a = Spam('华为')
     data_pd = a.read_csv()
     # type = list(set(data_pd['source'].tolist()))
     # print(type)

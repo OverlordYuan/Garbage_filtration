@@ -2,16 +2,16 @@
 """
  Created by Overlord Yuan at 2019/8/28
 """
-import Pattern_filtering as pf
+import Spam_Text_Recognition as st
 
 def Judgment_function(title,content,source,target):
     label = 0
-    label = pf.filter(title, content,label)
+    label = st.filter(title, content,label)
     try:
         if source == '微博' or len(str(content)) < 200:
-            label = pf.filter(title, content)
+            label = st.filter(title, content)
         else:
-            label = pf.target_fliter(title,content,target)
+            label = st.target_fliter(title,content,target)
     except:
         pass
     return str(label)

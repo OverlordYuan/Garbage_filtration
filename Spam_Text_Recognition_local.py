@@ -7,12 +7,12 @@ import pandas as pd
 import datetime
 import jieba
 import opencc
-import Pattern_filtering as pf
+import Spam_Text_Recognition as pf
 from tqdm import tqdm
 
 cc = opencc.OpenCC('t2s')
 
-class Garbage():
+class Spam():
     def __init__(self,target):
         '''
         本地测试垃圾识别初始化程序
