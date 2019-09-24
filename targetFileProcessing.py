@@ -17,15 +17,23 @@ def targetFileProcessing():
     temp2 = data['汽车型号'].tolist()
     temp = temp0+temp1+temp2
     data_list = (list(set(temp)))
-    with open('target_remove_dicr.txt','rb') as f:
-        item = f.readline()
-        if item:
-            data_list.remove(item)
-    with open('target_add_dicr.txt','rb') as f:
-        item = f.readline()
-        if item:
-            data_list.append(item)
+    with open('target_remove_dict.txt','r',encoding='utf-8') as f:
+        item = f.readline().replace('\n', '')
+        while item:
+            if item:
+                data_list.remove(item)
+            item = f.readline().replace('\n', '')
+    with open('target_add_dict.txt','r',encoding='utf-8') as f:
+        item = f.readline().replace('\n', '')
+        while item:
+            if item:
+                data_list.append(item)
+            item = f.readline().replace('\n', '')
+
     data_list  = list(map(lambda x:x.upper(),data_list))
     print(len(data_list))
     with open('targets.txt', 'wb') as f:
         pickle.dump(data_list, f, pickle.HIGHEST_PROTOCOL)
+
+if __name__ == "__main__":
+    targetFileProcessing()
