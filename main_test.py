@@ -3,16 +3,9 @@
  Created by Overlord Yuan at 2019/8/28
 """
 from Spam_Text_Recognition_local import Spam
-
 if __name__ =='__main__':
-    a = Spam('华为')
+    a = Spam('汽车')
+    # a.read_xls()
     data_pd = a.read_csv()
-    # type = list(set(data_pd['source'].tolist()))
-    # print(type)
-    # data_pd = a.read_xls()
-    # type = list(set(data_pd['source'].tolist()))
-    # print(type)
-    # data_pd.to_csv('input/华为/huawei.csv')
-    d = a.Garbage_analysis(data_pd)
-    # print(data_pd.shape)
+    d = a.Spam_analysis(data_pd)
     a.save_rusult(d)

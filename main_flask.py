@@ -5,6 +5,7 @@
 
 from flask import Flask
 from flask import request
+
 from Judgment_function import Judgment_function
 
 app = Flask(__name__)
@@ -23,13 +24,11 @@ def entrance():
         source = request.form['source']
     except:
         source = ''
-    try:
-        target = request.form['target']
-    except:
-        target = ''
-    label = Judgment_function(title,content,source,target)
-
+    if len(content)==0:
+        label = 1
+    else:
+        label = Judgment_function(title,content,source)
     return str([label])
 
 if __name__ == '__main__':
-    app.run(host='localhost', port=7000)
+    app.run(host='localhost', port=7001)

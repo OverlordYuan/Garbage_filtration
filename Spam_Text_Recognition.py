@@ -2,37 +2,53 @@
 """
  Created by Overlord Yuan at 2019/8/28
 """
-import re
+import re,pickle
 import jieba
 import opencc
+# import fool
 from patten_config import patten
 
+jieba.load_userdict("cut_dict.txt")
 cc = opencc.OpenCC('t2s')
+with open('targets.txt', 'rb') as f:
+    targets = pickle.load(f)
 
-def filter(title='',content='',label=0):
-    if title=='' or content=='':
-        flag = 1
-    else:
-        flag = 2
-    text = str(title)+str(content)
-    for item in patten:
-        data_list = re.findall(item, text)
-        if len(data_list)>flag:
-            label = 1
-            break
-    return label
-
-def target_fliter(title,content,target,label=0):
-    seg_list = list(jieba.cut(cc.convert(title), cut_all=False))
-    seg_list += (list(jieba.cut(cc.convert(content), cut_all=False)))
-    seg_dict = {}
-    for item in seg_list:
-        if item in seg_dict.keys():
-            seg_dict[item] +=1
+Social_media =['微博','短视频','Twtter','Facebook']
+def target_fliter(title,content,source):
+    # print(1)
+    label = 1
+    target = 0
+    title = cc.convert(str(title))
+    content = cc.convert(str(content))
+    seg_dict = dict.fromkeys(targets, 0)
+    text = title + content
+    word_list =list(jieba.cut(title))
+    # print(word_list)
+    if source not in Social_media:
+        for item in word_list:
+            item = item.upper()
+            if len(item)>1 and item in targets:
+                # print(2)
+                label = 0
+                break
+    if label==1:
+        if source in Social_media:
+            flag = 3
+            for item in patten:
+                text = re.compile(item).sub('',text)
         else:
-            seg_dict[item] = 1
-    if target not in list(seg_dict.keys()) or seg_dict[target]<2:
-            label= 1
+            flag = max(len(text) / 400, 2)
+
+        text_list = list(jieba.cut(text))
+        # print(text_list)
+        for item in text_list:
+            item = item.upper()
+            if len(item)>1 and item in seg_dict.keys():
+                seg_dict[item] += 1
+                target += 1
+                if seg_dict[item]>=flag or target>flag*2:
+                    label = 0
+                    break
     return label
 
 

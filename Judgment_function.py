@@ -2,16 +2,14 @@
 """
  Created by Overlord Yuan at 2019/8/28
 """
-import Spam_Text_Recognition as st
+import Spam_Text_Recognition  as st
 
-def Judgment_function(title,content,source,target):
-    label = 0
-    label = st.filter(title, content,label)
+def Judgment_function(title,content,source):
+    label = 1
     try:
-        if source == '微博' or len(str(content)) < 200:
-            label = st.filter(title, content)
-        else:
-            label = st.target_fliter(title,content,target)
-    except:
-        pass
+        # print(1)
+        label = st.target_fliter(title,content,source)
+    except Exception as e:
+        # print(0)
+        print(e)
     return str(label)

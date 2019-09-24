@@ -2,7 +2,7 @@
 """
  Created by Overlord Yuan at 2019/9/04
 """
-from main_test import Garbage
+from main_test import Spam
 import pandas as pd
 def pre_data(data):
     name = set(data['title'].tolist())
@@ -19,9 +19,11 @@ def pre_data(data):
     new_data = pd.DataFrame({"content":content})
     return new_data
 if __name__ =='__main__':
-    a = Garbage('test')
+    a = Spam('华为')
+    # data_pd = pd.read_csv(path, index_col=0)
     test = a.read_csv()
-    d = a.Garbage_analysis(test)
+    test['source'] = '微博'
+    d = a.Spam_analysis(test)
     a.save_rusult(d)
 
     # data = pd.read_csv('input/华为/huawei.csv', index_col=0)
