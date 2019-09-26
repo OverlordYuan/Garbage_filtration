@@ -14,20 +14,22 @@ def targetFileProcessing():
             aa.append(item + '车')
     temp0 = temp0+aa
     temp1 = data['品牌分类'].tolist()
-    temp2 = data['汽车型号'].tolist()
-    temp = temp0+temp1+temp2
+    # temp2 = data['汽车型号'].tolist()
+    temp = temp0+temp1
     data_list = (list(set(temp)))
     with open('target_remove_dict.txt','r',encoding='utf-8') as f:
         item = f.readline().replace('\n', '')
         while item:
             if item:
-                data_list.remove(item)
+                if item in data_list:
+                    data_list.remove(item)
             item = f.readline().replace('\n', '')
     with open('target_add_dict.txt','r',encoding='utf-8') as f:
         item = f.readline().replace('\n', '')
         while item:
             if item:
-                data_list.append(item)
+                if item not in data_list:
+                    data_list.append(item)
             item = f.readline().replace('\n', '')
 
     data_list  = list(map(lambda x:x.upper(),data_list))
