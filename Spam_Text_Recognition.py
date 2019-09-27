@@ -22,7 +22,7 @@ def target_fliter(title,content,source):
     if source in Social_media:
         label = Social_media_fliter(content)
     else:
-        label = New_media_fliter(title,content)
+        label = News_media_fliter(title,content)
     return label
 
 def Social_media_fliter(content):
@@ -48,7 +48,7 @@ def Social_media_fliter(content):
                     break
     return label
 
-def New_media_fliter(title,content):
+def News_media_fliter(title,content):
     label = 1
     target = 0
     seg_dict = dict.fromkeys(targets, 0)
