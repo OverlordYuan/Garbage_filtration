@@ -31,8 +31,12 @@ def Social_media_fliter(content):
     text = content
     seg_dict = dict.fromkeys(targets, 0)
     for item in patten:
+        patten_flag = 0
         obj = re.findall(item, text)
-        if len(obj)>2:
+        for tag in obj:
+            if tag in seg_dict.keys() or (tag.isdigit() and len(tag)<3):
+                patten_flag += 1
+        if len(obj)-patten_flag>2:
             label = 1
             break
     if label == 0:
