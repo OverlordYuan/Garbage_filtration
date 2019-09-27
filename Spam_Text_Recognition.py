@@ -13,61 +13,62 @@ with open('targets.txt', 'rb') as f:
     targets = pickle.load(f)
 
 Social_media =['微博','短视频','Twtter','Facebook']
+
 def target_fliter(title,content,source):
     # print(1)
-    label = 1
-    target = 0
     title = cc.convert(str(title))
     content = cc.convert(str(content))
-    seg_dict = dict.fromkeys(targets, 0)
-    text = title + content
-    word_list =list(jieba.cut(title))
-    print(word_list)
-    if source not in Social_media:
-        for item in word_list:
-            item = item.upper()
-            if len(item)>1 and item in targets:
-                # print(2)
-                label = 0
-                break
-    if label==1:
-        if source in Social_media:
-            flag = 3
-            new_word_list = []
-            for item in patten:
-                obj = re.findall(item,text)
-                new_word_list += obj
-                text = re.compile(item).sub('',text)
-        else:
-            flag = max(len(text) / 400, 2)
 
-        text_list = list(jieba.cut(text))
-        print(text_list)
-        for item in text_list:
-            item = item.upper()
-            if len(item)>1 and item in seg_dict.keys():
-                seg_dict[item] += 1
-                target += 1
-                if seg_dict[item]>=flag or target>flag*2:
-                    label = 0
-                    print(item)
-                    break
+    if source in Social_media:
+        label = Social_media_fliter(content)
+    else:
+        label = New_media_fliter(title,content)
     return label
 
 def Social_media_fliter(content):
+    label = 0
+    target = 0
     text = content
-    print(jieba.analyse.textrank(text, topK=5, withWeight=False))
-    word_list = list(jieba.cut(text))
-    flag = 2
-    new_word_list = []
+    seg_dict = dict.fromkeys(targets, 0)
     for item in patten:
         obj = re.findall(item, text)
-        new_word_list += obj
-        text = re.compile(item).sub('', text)
-    # print(','.join(new_word_list))
-    # print(','.join(new_word_list))
-    print(jieba.analyse.textrank(','.join(new_word_list), topK=5, withWeight=True))
-    print(jieba.analyse.textrank(text, topK=5, withWeight=False))
-    # jieba.analyse.textrank(text)
+        if len(obj)>2:
+            label = 1
+            break
+    if label == 0:
+        flag = max(len(text) / 200, 1)
+        word_list = list(jieba.cut(text))
+        for item in word_list:
+            item = item.upper()
+            if len(item) > 1 and item in seg_dict.keys():
+                seg_dict[item] += 1
+                target += 1
+                if seg_dict[item] >= flag or target > flag * 2:
+                    label = 0
+                    break
+    return label
 
+def New_media_fliter(title,content):
+    label = 1
+    target = 0
+    seg_dict = dict.fromkeys(targets, 0)
+    word_list = list(jieba.cut(title))
+    for item in word_list:
+        item = item.upper()
+        if len(item) > 1 and item in targets:
+            label = 0
+            break
+    if label == 1:
+        text = title + content
+        flag = max(len(text) / 400, 2)
+        text_list = list(jieba.cut(text))
+        for item in text_list:
+            item = item.upper()
+            if len(item) > 1 and item in seg_dict.keys():
+                seg_dict[item] += 1
+                target += 1
+                if seg_dict[item] >= flag or target > flag * 2:
+                    label = 0
+                    break
+    return label
 
