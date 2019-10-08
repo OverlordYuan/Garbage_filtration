@@ -9,24 +9,22 @@ from patten_config import patten
 import jieba.analyse
 jieba.load_userdict("cut_dict.txt")
 cc = opencc.OpenCC('t2s')
-with open('dict/targets.txt', 'rb') as f:
-    targets = pickle.load(f)
 
 Social_media =['微博','短视频','Twtter','Facebook']
 type_word = ['汽车']
 mix_word = ['大众']
-def target_fliter(title,content,source):
+def target_fliter(title,content,source,targets):
     # print(1)
     title = cc.convert(str(title.replace('·','_')))
     content = cc.convert(str(content))
 
     if source in Social_media:
-        label = Social_media_fliter(content)
+        label = Social_media_fliter(content,targets)
     else:
-        label = News_media_fliter(title,content)
+        label = News_media_fliter(title,content,targets)
     return label
 
-def Social_media_fliter(content):
+def Social_media_fliter(content,targets):
     label = 0
     target = 0
     text = content
@@ -62,7 +60,7 @@ def Social_media_fliter(content):
                     break
     return label
 
-def News_media_fliter(title,content):
+def News_media_fliter(title,content,targets):
     label = 1
     target = 0
     seg_dict = dict.fromkeys(targets, 0)
