@@ -2,7 +2,7 @@
 """
  Created by Overlord Yuan at 2019/8/28
 """
-
+import json
 from flask import Flask
 from flask import request
 
@@ -25,10 +25,10 @@ def entrance():
     except:
         source = ''
     if len(content)==0:
-        label = 1
+        res = {'car':1,'house':1}
     else:
-        label = Judgment_function(title,content,source)
-    return str([label])
+        res = Judgment_function(title,content,source)
+    return json.dumps(res)
 
 if __name__ == '__main__':
     app.run(host='localhost', port=7002)
