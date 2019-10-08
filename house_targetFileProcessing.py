@@ -17,14 +17,14 @@ def targetFileProcessing():
     # # temp2 = data['汽车型号'].tolist()
     # temp = temp0+temp1
     # data_list = (list(set(temp)))
-    # with open('target_remove_dict.txt','r',encoding='utf-8') as f:
+    # with open('car_target_remove_dict.txt','r',encoding='utf-8') as f:
     #     item = f.readline().replace('\n', '')
     #     while item:
     #         if item:
     #             if item in data_list:
     #                 data_list.remove(item)
     #         item = f.readline().replace('\n', '')
-    # with open('target_add_dict.txt','r',encoding='utf-8') as f:
+    # with open('car_target_add_dict.txt','r',encoding='utf-8') as f:
     #     item = f.readline().replace('\n', '')
     #     while item:
     #         if item:
