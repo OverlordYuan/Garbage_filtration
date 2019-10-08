@@ -31,4 +31,4 @@ def entrance():
     return str([label])
 
 if __name__ == '__main__':
-    app.run(host='localhost', port=7001)
+    app.run(host='localhost', port=7002)
