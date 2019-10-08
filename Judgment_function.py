@@ -2,14 +2,16 @@
 """
  Created by Overlord Yuan at 2019/8/28
 """
-import Spam_Text_Recognition  as st
+import Car_STR  as car
+import House_STR as house
 
 def Judgment_function(title,content,source):
-    label = 1
+    car_label = 0
+    house_label = 0
     try:
-        # print(1)
-        label = st.target_fliter(title,content,source)
+        car_label = car.target_fliter(title,content,source)
+        house_label = house.target_fliter(title,content,source)
     except Exception as e:
-        # print(0)
         print(e)
-    return str(label)
+    res = {'car':car_label,'house':house_label}
+    return res
