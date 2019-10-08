@@ -1,15 +1,12 @@
 import jieba
+from jieba import analyse
+import Spam_Text_Recognition as st
+# 引入TextRank关键词抽取接口
+textrank = analyse.textrank
+
 jieba.load_userdict("cut_dict.txt")
-text0 = r"换装1.5T，搭载大屏，五菱宏光也要高端化？网友：这辈子不可能了"
-# text = "中国护照免签又多了一个国家！ 9月12日，乌兹别克斯坦总统米尔济约耶夫签署法令，规定自2020年1月1日起，包括香港特别行政区在内的中国公民可通过该国国际机场免签进入乌兹别克斯坦，停留不超过7天。"
-temp = list(jieba.cut(text0))
+text = r"埃尔福特是德国中部的一个城市。它是图林根州的首府，并是一个有196,500人口的制造业中心。 埃尔福特东北100公里是莱比锡，向西113公里是卡塞尔和向西北180公里是汉诺威。向外联系则可从慕尼黑转机往埃尔福特机场。 在德国统一之后，埃尔福特是地理上最接近德国中心地带的主要城市。 ​​​".replace('·','')
+print(len(text))
+temp = list(jieba.lcut(text))
 print(temp)
-# import re
-# from patten_config import patten
-# text = '【顺联动力】【新车定金】奥迪A3 2019款 Sportback 35 TFSI 进取型 汽车整车O网页链接 ​'
-# data_list = re.findall(patten[0], text)
-# # if len(data_list)>2:
-#
-# for item in patten[1]:
-#     text = re.compile(item).sub('', text)
-# print(text)
+# label = st.Social_media_fliter(text)

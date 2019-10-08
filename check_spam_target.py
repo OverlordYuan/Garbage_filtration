@@ -5,7 +5,7 @@
 import re,pickle,os
 import jieba
 import opencc
-# import fool
+import jieba.analyse
 import pandas as pd
 import numpy as np
 from patten_config import patten
@@ -84,22 +84,40 @@ def read_xls():
                     data_pd = pd.concat([data_pd,data_temp],ignore_index=True,sort=False)
                     type = set(data_pd['source'].tolist())
                     # print(type)
-    # print(data_pd)
+    print(data_pd.shape)
     # data = data_pd.loc[data_pd['label']=='上海市三八红旗手走进高校思政课堂']
-    data = data_pd.loc[data_pd['label']=='[0]']
+    data = data_pd.loc[data_pd['label']=='[1]']
     type = set(data['source'].tolist())
     print(type)
-    data = data.loc[data['source']=='[9384]']
+    # data = data.loc[data['source']!= float('nan')]
+    # print(set(data['source'].tolist()))
+    data = data.loc[data['source'] != '[9326]']
+    print(set(data['source'].tolist()))
     data = data.reset_index(drop=True)
     # print(data)
     # data.to_csv(os.path.join(data_dir,'check' + '.csv'), encoding='utf-8-sig')
     return data
+
+def Social_media_fliter(content):
+    text = content
+    word_list = list(jieba.cut(text))
+    flag = 2
+    new_word_list = []
+    for item in patten:
+        obj = re.findall(item, text)
+        new_word_list += obj
+        text = re.compile(item).sub('', text)
+    print(list(jieba.cut(','.join(new_word_list))))
+    print(list(jieba.cut(text)))
+    # print(jieba.analyse.textrank(','.join(new_word_list), topK=5, withWeight=True))
+    # print(jieba.analyse.textrank(text, topK=5, withWeight=False))
 if __name__=='__main__':
     data = read_xls()
     word_list = []
     print(data.shape[0])
     for i in range(data.shape[0]):
-        # print(data.loc[i]['title'])
-        word_list.append(target_find(data.loc[i]['title'], data.loc[i]['content'],source=''))
-    for item in list(set(word_list)):
-        print(item)
+        if isinstance(data.loc[i]['source'],str):
+            print(data.loc[i]['title'])
+            Social_media_fliter(data.loc[i]['title'])
+    # for item in list(set(word_list)):
+    #     print(item)
